@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Products from "../pages/Products";
 import MainLayout from "../layouts/MainLayout";
 import ErrorPage from "../pages/ErrorPage";
+import Wishlist from "../pages/Wishlist";
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        // element: <Home />,
+        Component: Home,
       },
       {
         path: "/home",
@@ -21,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
+      },
+      {
+        path: "/wishlist",
+        element: <Wishlist />,
       },
     ],
   },
