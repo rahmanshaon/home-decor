@@ -2,15 +2,28 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
+// import { BrowserRouter, Route, Routes } from "react-router";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    {/* declarative mode */}
-    <BrowserRouter>
+    {/* Declarative Mode */}
+
+    {/* <BrowserRouter>
       <Routes>
         <Route path="/hello" element={<App />} />
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter> */}
+
+    {/* Data Mode */}
+
+    <RouterProvider router={router} />
   </StrictMode>
 );
