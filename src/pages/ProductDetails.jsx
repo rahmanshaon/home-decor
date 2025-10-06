@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router";
 import useProducts from "../hooks/useProducts";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -12,7 +13,32 @@ const ProductDetails = () => {
   // console.log(typeof id);
   // console.log(product);
   if (loading) return <p>Loading....</p>;
-  const { name, image, price, category, description } = product;
+  const { name, image, price, category, description } = product || {};
+
+  const handleAddToWishList = () => {
+    const existingList = JSON.parse(localStorage.getItem("wishlist"));
+    // console.log(existingList);
+    let updatedList = [];
+    if (existingList) {
+      const isDuplicate = existingList.some((p) => p.id === product.id);
+      // if (isDuplicate) return alert("Sorry vai");
+      if (isDuplicate) {
+        toast.warning("This product is already in your wishlist!", {
+          position: "top-center",
+          // autoClose: 2000,
+        });
+        return;
+      }
+      updatedList = [...existingList, product];
+    } else {
+      updatedList.push(product);
+    }
+    localStorage.setItem("wishlist", JSON.stringify(updatedList));
+    toast.success("Added to wishlist 💖", {
+      position: "top-center",
+      // autoClose: 2000,
+    });
+  };
 
   return (
     <div className="card bg-base-100 border shadow-sm">
@@ -25,7 +51,9 @@ const ProductDetails = () => {
         <p>Category: {category}</p>
         <p>Price: ${price}</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-outline">Add to Wishlist</button>
+          <button onClick={handleAddToWishList} className="btn btn-outline">
+            Add to Wishlist
+          </button>
         </div>
       </div>
     </div>
