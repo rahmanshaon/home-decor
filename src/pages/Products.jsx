@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import useProducts from "../hooks/useProducts";
 import ProductCard from "../components/ProductCard";
 import { FaSearch } from "react-icons/fa";
+import SkeletonLoader from "../components/SkeletonLoader";
 
 const Products = () => {
-  const { products } = useProducts();
+  const { products, loading } = useProducts();
   const [search, setSearch] = useState("");
   // console.log(search);
 
@@ -20,7 +21,9 @@ const Products = () => {
       <div className="flex justify-between py-5 items-center">
         <h1 className="text-3xl font-semibold">
           All Products{" "}
-          <span className="text-sm text-gray-500">({searchedProducts.length})</span>
+          <span className="text-sm text-gray-500">
+            ({searchedProducts.length})
+          </span>
         </h1>
 
         <label className="input border-gray-800">
@@ -35,11 +38,15 @@ const Products = () => {
           />
         </label>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {searchedProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      {loading ? (
+        <SkeletonLoader count={16} />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {searchedProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
