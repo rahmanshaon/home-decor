@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import {
   Bar,
   BarChart,
@@ -10,19 +10,19 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { loadWishlist, removeFromWishlist } from "../utils/localStorage";
 
 const Wishlist = () => {
-  const [wishlist, setWishlist] = useState([]);
+  const [wishlist, setWishlist] = useState(() => loadWishlist());
   const [sortOrder, setSortOrder] = useState("none");
 
-  useEffect(() => {
-    const savedList = JSON.parse(localStorage.getItem("wishlist"));
-    if (savedList) setWishlist(savedList);
-  }, []);
+  // useEffect(() => {
+  //   setWishlist(loadWishList)
+  // }, []);
 
   if (!wishlist.length)
     return (
-      <p className="flex items-center justify-center text-3xl font-semibold text-red-600">
+      <p className="flex items-center justify-center text-3xl font-semibold text-red-600 min-h-[50vh]">
         No data Available
       </p>
     );
@@ -37,14 +37,22 @@ const Wishlist = () => {
     }
   })();
 
+  // const handelRemove = (id) => {
+  //   const existingList = JSON.parse(localStorage.getItem("wishlist"));
+  //   let updatedList = existingList.filter((p) => p.id !== id);
+
+  //   // for ui instant update
+  //   setWishlist(updatedList);
+  //   localStorage.setItem("wishlist", JSON.stringify(updatedList));
+  //   toast.success("Removed from wishlist");
+  // };
+
   const handelRemove = (id) => {
-    const existingList = JSON.parse(localStorage.getItem("wishlist"));
-    let updatedList = existingList.filter((p) => p.id !== id);
+    // remove from localstorage
+    removeFromWishlist(id);
 
     // for ui instant update
-    setWishlist(updatedList);
-    localStorage.setItem("wishlist", JSON.stringify(updatedList));
-    toast.success("Removed from wishlist");
+    setWishlist((prev) => prev.filter((p) => p.id !== id));
   };
 
   // generate chart data

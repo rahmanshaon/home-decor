@@ -1,7 +1,8 @@
 import React from "react";
 import { useParams } from "react-router";
 import useProducts from "../hooks/useProducts";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
+import { updateList } from "../utils/localStorage";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,24 +16,24 @@ const ProductDetails = () => {
   if (loading) return <p>Loading....</p>;
   const { name, image, price, category, description } = product || {};
 
-  const handleAddToWishList = () => {
-    const existingList = JSON.parse(localStorage.getItem("wishlist"));
-    // console.log(existingList);
-    let updatedList = [];
-    if (existingList) {
-      const isDuplicate = existingList.some((p) => p.id === product.id);
-      // if (isDuplicate) return alert("Sorry Bhai already wishlist e ache");
-      if (isDuplicate) {
-        toast.warning("This product is already in your wishlist!");
-        return;
-      }
-      updatedList = [...existingList, product];
-    } else {
-      updatedList.push(product);
-    }
-    localStorage.setItem("wishlist", JSON.stringify(updatedList));
-    toast("Added to wishlist");
-  };
+  // const handleAddToWishList = () => {
+  //   const existingList = JSON.parse(localStorage.getItem("wishlist"));
+  //   // console.log(existingList);
+  //   let updatedList = [];
+  //   if (existingList) {
+  //     const isDuplicate = existingList.some((p) => p.id === product.id);
+  //     // if (isDuplicate) return alert("Sorry Bhai already wishlist e ache");
+  //     if (isDuplicate) {
+  //       toast.warning("This product is already in your wishlist!");
+  //       return;
+  //     }
+  //     updatedList = [...existingList, product];
+  //   } else {
+  //     updatedList.push(product);
+  //   }
+  //   localStorage.setItem("wishlist", JSON.stringify(updatedList));
+  //   toast("Added to wishlist");
+  // };
 
   return (
     <div className="card bg-base-100 border shadow-sm">
@@ -45,7 +46,7 @@ const ProductDetails = () => {
         <p>Category: {category}</p>
         <p>Price: ${price}</p>
         <div className="card-actions justify-end">
-          <button onClick={handleAddToWishList} className="btn btn-outline">
+          <button onClick={() => updateList(product)} className="btn btn-outline">
             Add to Wishlist
           </button>
         </div>
