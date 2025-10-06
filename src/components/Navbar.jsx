@@ -38,7 +38,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link to="/" className="text-2xl font-semibold">
+        <Link to="/" className="text-lg md:text-2xl font-semibold">
           Home Decor
         </Link>
       </div>
@@ -58,7 +58,7 @@ const Navbar = () => {
             <NavLink to="/error">Error Test</NavLink>
           </li>
         </ul>
-        <NavLink to="/products" className="btn">
+        <NavLink to="/products" className="btn btn-outline">
           Visit Shop
         </NavLink>
       </div>
