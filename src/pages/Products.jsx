@@ -10,7 +10,7 @@ const Products = () => {
 
   const term = search.trim().toLowerCase();
   const searchedProducts = term
-    ? products.filter((product) => product.name.toLowerCase().includes(term))
+    ? products.filter((p) => p.name.toLowerCase().includes(term))
     : products;
 
   // console.log(searchedProducts);
