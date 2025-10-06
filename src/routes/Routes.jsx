@@ -10,17 +10,17 @@ const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     errorElement: <ErrorPage />,
-    hydrateFallbackElement: (
-      <div className="flex items-center justify-center w-full h-full min-h-screen">
-        <span className="loading loading-spinner loading-xl"></span>
-      </div>
-    ),
+    // hydrateFallbackElement: (
+    //   <div className="flex items-center justify-center w-full h-full min-h-screen">
+    //     <span className="loading loading-spinner loading-xl"></span>
+    //   </div>
+    // ),
     children: [
       {
         index: true,
         // element: <Home />,
         Component: Home,
-        loader: () => fetch("/furnitureData.json"),
+        // loader: () => fetch("/furnitureData.json"),
       },
       {
         path: "/home",
