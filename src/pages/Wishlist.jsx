@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -9,6 +19,13 @@ const Wishlist = () => {
     const savedList = JSON.parse(localStorage.getItem("wishlist"));
     if (savedList) setWishlist(savedList);
   }, []);
+
+  if (!wishlist.length)
+    return (
+      <p className="flex items-center justify-center text-3xl font-semibold text-red-600">
+        No data Available
+      </p>
+    );
 
   const sortedItem = (() => {
     if (sortOrder === "price-asc") {
@@ -29,6 +46,22 @@ const Wishlist = () => {
     localStorage.setItem("wishlist", JSON.stringify(updatedList));
     toast.success("Removed from wishlist");
   };
+
+  // generate chart data
+  const totalsByCategory = {};
+  wishlist.forEach((product) => {
+    const category = product.category;
+    totalsByCategory[category] =
+      (totalsByCategory[category] || 0) + product.price;
+  });
+
+  // console.log(totalsByCategory);
+
+  const chartData = Object.keys(totalsByCategory).map((category) => ({
+    category,
+    total: totalsByCategory[category],
+  }));
+  // console.log(chartData);
 
   return (
     <div className="space-y-6">
@@ -76,6 +109,24 @@ const Wishlist = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* chart */}
+      <div className="space-y-3">
+        <h3 className="text-xl font-semibold">Wishlist Summery</h3>
+        <div className="bg-base-100 border rounded-xl p-4 h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="category" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+
+              <Bar dataKey="total" fill="#C19A6B" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
