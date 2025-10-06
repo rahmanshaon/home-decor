@@ -21,12 +21,9 @@ const ProductDetails = () => {
     let updatedList = [];
     if (existingList) {
       const isDuplicate = existingList.some((p) => p.id === product.id);
-      // if (isDuplicate) return alert("Sorry vai");
+      // if (isDuplicate) return alert("Sorry Bhai already wishlist e ache");
       if (isDuplicate) {
-        toast.warning("This product is already in your wishlist!", {
-          position: "top-center",
-          // autoClose: 2000,
-        });
+        toast.warning("This product is already in your wishlist!");
         return;
       }
       updatedList = [...existingList, product];
@@ -34,10 +31,7 @@ const ProductDetails = () => {
       updatedList.push(product);
     }
     localStorage.setItem("wishlist", JSON.stringify(updatedList));
-    toast.success("Added to wishlist 💖", {
-      position: "top-center",
-      // autoClose: 2000,
-    });
+    toast("Added to wishlist");
   };
 
   return (
